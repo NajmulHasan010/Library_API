@@ -6,8 +6,8 @@ import { loginLibrary, logoutLibrary } from "../controllers/authController.js";
 const router = express.Router();
 
 // routes
-router.post("/api/v1/login", loginLibrary);
-router.post("/api/v1/logout", logoutLibrary);
+router.post("/login", loginLibrary);
+router.post("/logout", logoutLibrary);
 
 // default export router
 export default router;

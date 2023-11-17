@@ -1,16 +1,20 @@
 import express from "express";
 import { getAllStudent, getSingleStudent, createStudent, updateStudent, deleteStudent } from "../controllers/studentController.js";
+import { verifyToken } from "../middlewares/verifyToken.js";
 
 
 // init router
 const router = express.Router();
 
+//middleware
+router.use(verifyToken);
+
 // routes
-router.get("/api/v1/student", getAllStudent);
-router.get("/api/v1/student/:id", getSingleStudent);
-router.post("/api/v1/student", createStudent);
-router.patch("/api/v1/student/:id", updateStudent);
-router.delete("/api/v1/student/:id", deleteStudent);
+router.get("/", getAllStudent);
+router.get("/:id", getSingleStudent);
+router.post("/", createStudent);
+router.patch("/:id", updateStudent);
+router.delete("/:id", deleteStudent);
 
 
 // default export router

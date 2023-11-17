@@ -1,7 +1,7 @@
 import {Student} from "../models/StudentModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-
+import asyncHandler from "express-async-handler"
 
 /**
  * CRUD Operation
@@ -16,7 +16,7 @@ import jwt from "jsonwebtoken";
  * 
  */
 
-export const createStudent = async (req, res) => {
+export const createStudent = asyncHandler(async (req, res) => {
 	const { studentName, userName, password, email } = req.body;
 
     // password hash
@@ -35,7 +35,7 @@ export const createStudent = async (req, res) => {
         expiresIn: "10d",
     });
 	res.status(200).json({message : "Student Data Created", student : data, token });
-};
+});
 
 // READ =======================================================
 
@@ -47,13 +47,13 @@ export const createStudent = async (req, res) => {
  * 
  */
 
-export const getAllStudent = async(req, res) => {
+export const getAllStudent = asyncHandler(async(req, res) => {
     const data = await Student.find();
     if (data.length === 0) {
         return res.status(404).json({message : "student data not found", student: data})
     }
     res.status(200).json({message : "all student data", student : data });
-};
+});
 
 /**
  * @DESC Get single student
@@ -63,7 +63,7 @@ export const getAllStudent = async(req, res) => {
  * 
  */
 
-export const getSingleStudent = async(req, res) => {
+export const getSingleStudent = asyncHandler(async(req, res) => {
     const {id} = req.params;
     const data = await Student.findById(id);
 
@@ -72,7 +72,7 @@ export const getSingleStudent = async(req, res) => {
         return res.status(404).json({message : "user data not found"});        
     } */
     res.status(200).json({message : "single Student data", student : data });
-};  
+});  
 
 // UPDATE =============================================
 
@@ -83,14 +83,14 @@ export const getSingleStudent = async(req, res) => {
  * @access PUBLIC
  */
 
-export const updateStudent = async(req, res) => {
+export const updateStudent = asyncHandler(async(req, res) => {
     const {id} = req.params;
     const { name, userName } = req.body;
     const data = await Student.findByIdAndUpdate(id, {name, userName}, {new : true});
 
     
     res.status(200).json({message : "student data updated", updateStudent : data });
-}; 
+}); 
 
 // DELETE ==============================================================
 
@@ -101,10 +101,10 @@ export const updateStudent = async(req, res) => {
  * @access PUBLIC
  */
 
-export const deleteStudent = async(req, res) => {
+export const deleteStudent = asyncHandler(async(req, res) => {
     const {id} = req.params;
     const data = await Student.findByIdAndDelete(id);
 
     
     res.status(200).json({message : "data deleted", student : data });
-}; 
+}); 
